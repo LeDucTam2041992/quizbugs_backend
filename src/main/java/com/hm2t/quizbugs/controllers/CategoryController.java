@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,18 +27,24 @@ public class CategoryController {
             return new ResponseEntity<>(getListCategories(),HttpStatus.OK);
     }
     @GetMapping("{id}")
-    public ResponseEntity<Optional<Category>> getOneCategory(@PathVariable("id") Long id) {
+    public ResponseEntity<Optional<Category>> getOneCategory(@Validated @PathVariable("id") Long id) {
         Optional<Category> category = categoryService.findById(id);
         return new ResponseEntity<>(category,HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category){
+    public ResponseEntity<?> createCategory(@Validated @RequestBody Category category, BindingResult bindingResult){
+        if(bindingResult.hasFieldErrors()){
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
         if(category !=null)
             categoryService.save(category);
         return new ResponseEntity<>(category,HttpStatus.OK);
     }
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateCategory(@RequestBody Category category, @PathVariable("id") Long id) {
+    public ResponseEntity<?> updateCategory(@Validated @RequestBody Category category, @PathVariable("id") Long id, BindingResult bindingResult) {
+        if(bindingResult.hasFieldErrors()){
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
         Optional<Category> currentCategory = categoryService.findById(id);
         if(currentCategory.isPresent()) {
             category.setId(id);
