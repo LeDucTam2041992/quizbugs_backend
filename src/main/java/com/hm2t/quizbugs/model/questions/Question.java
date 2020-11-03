@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.model.questions;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -24,6 +25,9 @@ public class Question {
     @Min(0)
     @Max(2)
     private int type;
+
+    @ColumnDefault("1")
+    private int status;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
