@@ -7,29 +7,22 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 @Data
-public class Question {
+public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(columnDefinition = "Text")
-    @NotBlank
     @NotNull
-    private String question;
+    @NotBlank
+    private String answer;
 
-    @Min(0)
-    @Max(2)
-    private int type;
+    private boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @OneToMany(targetEntity = Answer.class, cascade = CascadeType.REMOVE)
-    Set<Answer> answers;
-
+    @JoinColumn(name = "question_id")
+    private Question question;
 }
