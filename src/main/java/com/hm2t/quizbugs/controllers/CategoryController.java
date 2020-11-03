@@ -38,8 +38,10 @@ public class CategoryController {
     @PutMapping("{id}")
     public ResponseEntity<Void> updateCategory(@RequestBody Category category, @PathVariable("id") Long id) {
         Optional<Category> currentCategory = categoryService.findById(id);
-        if(currentCategory.isPresent())
+        if(currentCategory.isPresent()) {
+            category.setId(id);
             categoryService.save(category);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @DeleteMapping("{id}")
