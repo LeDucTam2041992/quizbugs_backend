@@ -1,13 +1,14 @@
 package com.hm2t.quizbugs.service;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IService<T> {
-    Iterable<T> findAll();
+    List<T> findAll();
 
-    Optional<T> findById(long id);
+    Optional<T> findById(Long id);
 
-    void save(T model);
+    void save(T category);
 
-    void remove(long id);
+    void remove(Long id);
 }
