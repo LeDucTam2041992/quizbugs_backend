@@ -26,8 +26,7 @@ public class Question {
     @Max(2)
     private int type;
 
-    @ColumnDefault("1")
-    private int status;
+    private int status = 1;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
