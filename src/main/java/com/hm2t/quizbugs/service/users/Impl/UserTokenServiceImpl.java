@@ -17,7 +17,7 @@ public class UserTokenServiceImpl implements UserTokenService {
 
     @Override
     public AppUserToken save(AppUserToken model) {
-        return this.userTokenRepository.save(model);
+       return this.userTokenRepository.save(model);
     }
 
     @Override
