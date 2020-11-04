@@ -39,7 +39,6 @@ public class UserController {
         if (passwordLength > 5 && passwordLength < 20) {
             Set<AppRole> appRoleSet = new HashSet<>();
             appRoleSet.add((roleService.getRoleByName("ROLE_USER")));
-            appRoleSet.add((roleService.getRoleByName("ROLE_ADMIN")));
             appUser.setRoles(appRoleSet);
             appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
             userService.save(appUser);
