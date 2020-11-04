@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.model.questions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -35,8 +36,8 @@ public class Question {
     @JoinColumn(name = "category_id")
     private Category category;
 
-
     @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Answer> answers;
 
 }

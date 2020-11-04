@@ -24,28 +24,13 @@ public class QuestionController {
 
     @GetMapping()
     public ResponseEntity<Iterable<Question>> getAllQuestion() {
-        Iterable<Question> questions = questionService.findAll();
-//        for (Question q:questions) {
-//            Iterable<Answer> answers = answerService.findAllByQuestion(q);
-//            List<Answer> answerList = new ArrayList<>();
-//            for (Answer a:answers) {
-//                answerList.add(a);
-//            }
-//            q.setAnswers(answerList);
-//        }
+        Iterable<Question> questions = questionService.findAllByStatus(1);
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Question>> getQuestionById(@PathVariable("id") long id) {
-        Optional<Question> question = questionService.findById(id);
-        Iterable<Answer> answers = answerService.findAllByQuestion(question.get());
-        List<Answer> answerList = new ArrayList<>();
-        for (Answer a:answers) {
-            answerList.add(a);
-        }
-        question.get().setAnswers(answerList);
-        return new ResponseEntity<>(question, HttpStatus.OK);
+        return new ResponseEntity<>(questionService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping()
@@ -54,11 +39,6 @@ public class QuestionController {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         Question qs = questionService.save(question);
-        Iterable<Answer> answers = qs.getAnswers();
-        for (Answer a:answers) {
-            a.setQuestion(qs);
-            answerService.save(a);
-        }
         return new ResponseEntity<>(questionService.findById(qs.getId()), HttpStatus.OK);
     }
 
@@ -67,12 +47,7 @@ public class QuestionController {
         if(bindingResult.hasFieldErrors()){
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        questionService.save(question);
-        List<Answer> answers = question.getAnswers();
-        for (Answer a:answers) {
-            answerService.save(a);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

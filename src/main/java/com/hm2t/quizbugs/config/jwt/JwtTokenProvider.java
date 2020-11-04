@@ -17,7 +17,7 @@ import java.util.Date;
 public class JwtTokenProvider {
     private final String JWT_SECRET = "HM2T";
     private final String JWT_TOKEN_PREFIX = "Bearer ";
-    private final long JWT_EXPIRATION = 10 * 60 * 1000L;
+    private final long JWT_EXPIRATION = 120 * 60 * 1000L;
 
     @Autowired
     private UserTokenServiceImpl userTokenService;
@@ -39,7 +39,6 @@ public class JwtTokenProvider {
                             .setSigningKey(JWT_SECRET)
                             .parseClaimsJws(token)
                             .getBody();
-
         return Long.parseLong(claims.getSubject());
     }
 

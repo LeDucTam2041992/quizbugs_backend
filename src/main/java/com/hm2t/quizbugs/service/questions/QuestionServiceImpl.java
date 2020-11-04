@@ -31,4 +31,9 @@ public class QuestionServiceImpl implements QuestionService{
     public void remove(long id) {
 
     }
+
+    @Override
+    public Iterable<Question> findAllByStatus(int status) {
+        return questionRepository.findAllByStatus(status);
+    }
 }
