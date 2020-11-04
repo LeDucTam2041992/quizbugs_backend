@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -22,13 +23,14 @@ public class AppUser {
 
     @NotBlank
     @NotNull
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 20)
+    @Pattern(regexp="(^[A-Za-z0-9]*$)")
     @Column(nullable = false, unique = true)
     private String username;
 
     @NotBlank
     @NotNull
-    @Size(min = 5, max = 50)
+    @Column(nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
