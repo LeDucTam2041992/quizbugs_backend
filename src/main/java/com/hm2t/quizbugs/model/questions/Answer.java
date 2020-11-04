@@ -24,7 +24,7 @@ public class Answer {
 
     private boolean status;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "question_id")
     private Question question;
 }

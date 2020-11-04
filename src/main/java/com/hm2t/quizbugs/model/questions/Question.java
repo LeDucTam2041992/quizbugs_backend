@@ -35,8 +35,7 @@ public class Question {
     @JoinColumn(name = "category_id")
     private Category category;
 
-
-    @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = CascadeType.PERSIST)
+    @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Answer> answers;
 
 }

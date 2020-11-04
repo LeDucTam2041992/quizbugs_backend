@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void save(AppUser model) {
-        this.userRepository.save(model);
+    public AppUser save(AppUser model) {
+        return this.userRepository.save(model);
     }
 
     @Override
