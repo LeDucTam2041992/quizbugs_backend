@@ -1,5 +1,6 @@
 package com.hm2t.quizbugs.model.questions;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -8,9 +9,11 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "questions")
 @Data
 public class Question {
     @Id
@@ -32,7 +35,8 @@ public class Question {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(targetEntity = Answer.class, cascade = CascadeType.REMOVE)
-    Set<Answer> answers;
+
+    @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = CascadeType.PERSIST)
+    private List<Answer> answers;
 
 }
