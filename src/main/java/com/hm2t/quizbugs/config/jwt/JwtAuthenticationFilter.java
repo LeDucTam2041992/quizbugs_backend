@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = getJwtFromRequest(request);
 
         try {
-            if ((!jwt.isEmpty()) && jwt!=null) {
+            if (jwt==null || jwt.equals("")) {
                 filterChain.doFilter(request, response);
                 return;
             }

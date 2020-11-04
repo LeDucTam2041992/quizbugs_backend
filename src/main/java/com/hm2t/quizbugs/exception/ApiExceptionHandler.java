@@ -28,7 +28,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage TodoException(Exception ex, WebRequest request) {
-        return new ErrorMessage(401, "Đối tượng không tồn tại");
+        return new ErrorMessage(400, "Đối tượng không tồn tại");
     }
 
 
