@@ -15,7 +15,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage validatorException(Exception ex, WebRequest request) {
-        return new ErrorMessage(401, ex.getMessage());
+        return new ErrorMessage(400, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
