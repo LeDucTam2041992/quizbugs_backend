@@ -1,0 +1,54 @@
+package com.hm2t.quizbugs.service.users.Impl;
+
+
+import com.hm2t.quizbugs.model.users.AppUser;
+import com.hm2t.quizbugs.model.users.AppUserToken;
+import com.hm2t.quizbugs.repository.UserTokenRepository;
+import com.hm2t.quizbugs.service.users.UserTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class UserTokenServiceImpl implements UserTokenService {
+    @Autowired
+    UserTokenRepository userTokenRepository;
+
+    @Override
+    public void save(AppUserToken model) {
+        this.userTokenRepository.save(model);
+    }
+
+    @Override
+    public void remove(long id) {
+        this.userTokenRepository.deleteById(id);
+    }
+
+    @Override
+    public void removeAllByAppUser(AppUser appUser) {
+        this.userTokenRepository.removeAllByAppUser(appUser);
+    }
+
+    @Override
+    public boolean isTokenExists(String token) {
+        return this.userTokenRepository.existsAppUserTokenByToken(token);
+    }
+
+    @Override
+    public void removeAppToken(String token) {
+        this.userTokenRepository.removeByToken(token);
+    }
+
+    @Override
+    public Iterable<AppUserToken> findAll() {
+        return this.userTokenRepository.findAll();
+    }
+
+    @Override
+    public Optional<AppUserToken> findById(long id) {
+        return Optional.empty();
+    }
+
+
+}
