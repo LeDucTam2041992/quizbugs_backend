@@ -24,8 +24,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void save(AppRole model) {
-        this.roleRepository.save(model);
+    public AppRole save(AppRole model) {
+        return this.roleRepository.save(model);
     }
 
     @Override
