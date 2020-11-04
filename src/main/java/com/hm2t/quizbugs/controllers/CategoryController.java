@@ -1,5 +1,7 @@
 package com.hm2t.quizbugs.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hm2t.quizbugs.model.questions.Category;
 import com.hm2t.quizbugs.service.questions.CategoryService;
 import com.hm2t.quizbugs.service.questions.CategoryServiceImpl;
@@ -17,7 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("questions/categories")
+@RequestMapping("/categories")
+@CrossOrigin("*")
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
@@ -26,8 +29,9 @@ public class CategoryController {
     public ResponseEntity<List<Category>> listCategories(){
             return new ResponseEntity<>(getListCategories(),HttpStatus.OK);
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<Optional<Category>> getOneCategory(@Validated @PathVariable("id") Long id) {
+    public ResponseEntity<Optional<Category>> getOneCategory(@PathVariable("id") Long id) {
         Optional<Category> category = categoryService.findById(id);
         return new ResponseEntity<>(category,HttpStatus.OK);
     }
