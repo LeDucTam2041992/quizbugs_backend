@@ -19,12 +19,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Iterable<AppUser> findAll() {
-        return null;
+        return this.userRepository.findAll();
     }
 
     @Override
     public Optional<AppUser> findById(long id) {
-        return Optional.empty();
+        return this.userRepository.findById(id);
     }
 
     @Override
