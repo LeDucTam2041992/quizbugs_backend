@@ -14,15 +14,4 @@ import org.springframework.web.bind.annotation.*;
 public class AnswerController {
     @Autowired
     private AnswerService answerService;
-
-    @PostMapping()
-    public ResponseEntity<?> createAnswers(@Validated @RequestBody Answer answers, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()){
-            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
-        }
-        answerService.save(answers);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
 }

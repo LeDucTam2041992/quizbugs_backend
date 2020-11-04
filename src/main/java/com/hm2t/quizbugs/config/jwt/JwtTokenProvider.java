@@ -39,7 +39,6 @@ public class JwtTokenProvider {
                             .setSigningKey(JWT_SECRET)
                             .parseClaimsJws(token)
                             .getBody();
-
         return Long.parseLong(claims.getSubject());
     }
 

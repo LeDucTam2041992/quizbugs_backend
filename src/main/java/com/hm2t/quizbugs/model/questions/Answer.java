@@ -1,5 +1,6 @@
 package com.hm2t.quizbugs.model.questions;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class Answer {
     private boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinColumn(name = "question_id")
     private Question question;
 }
