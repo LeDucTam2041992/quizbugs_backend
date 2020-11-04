@@ -64,21 +64,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
                 .addFilterAfter(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/","/login","/users").permitAll()
+                .antMatchers("/", "/login", "/users").permitAll()
                 .antMatchers("/users/**").access("hasRole('USER') or hasRole('ADMIN')")
                 .anyRequest().authenticated();
-
 
 
         http.cors().configurationSource(request -> {
             CorsConfiguration cors = new CorsConfiguration();
             cors.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
-            cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
+            cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             cors.setAllowedHeaders(Collections.singletonList("*"));
             return cors;
         });
     }
-
 
 
 }
