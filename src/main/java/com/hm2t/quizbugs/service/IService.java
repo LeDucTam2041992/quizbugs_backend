@@ -1,5 +1,7 @@
 package com.hm2t.quizbugs.service;
 
+import com.hm2t.quizbugs.model.questions.Question;
+
 import java.util.Optional;
 
 public interface IService<T> {
@@ -7,7 +9,7 @@ public interface IService<T> {
 
     Optional<T> findById(long id);
 
-    void save(T model);
+    Question save(T model);
 
     void remove(Long id);
 }

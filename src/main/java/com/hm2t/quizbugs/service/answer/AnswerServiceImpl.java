@@ -23,7 +23,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Answer save(Answer model) {
+    public Question save(Answer model) {
         return answerRepository.save(model);
     }
 

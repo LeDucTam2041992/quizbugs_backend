@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.service.questions;
 
 import com.hm2t.quizbugs.model.questions.Category;
+import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,9 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void save(Category category) {
+    public Question save(Category category) {
         categoryRepository.save(category);
+        return null;
     }
 
     @Override

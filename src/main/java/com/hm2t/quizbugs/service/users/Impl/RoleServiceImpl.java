@@ -1,5 +1,6 @@
 package com.hm2t.quizbugs.service.users.Impl;
 
+import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppRole;
 import com.hm2t.quizbugs.repository.RoleRepository;
 import com.hm2t.quizbugs.service.users.RoleService;
@@ -24,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public AppRole save(AppRole model) {
+    public Question save(AppRole model) {
         return this.roleRepository.save(model);
     }
 

@@ -26,7 +26,7 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> listCategories(){
+    public ResponseEntity<Iterable<Category>> listCategories(){
             return new ResponseEntity<>(getListCategories(),HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class CategoryController {
             categoryService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    private List<Category> getListCategories(){
+    private Iterable<Category> getListCategories(){
         return categoryService.findAll();
     }
 }

@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.service.users.Impl;
 
 
+import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.model.users.AppUserToken;
 import com.hm2t.quizbugs.repository.UserTokenRepository;
@@ -16,7 +17,7 @@ public class UserTokenServiceImpl implements UserTokenService {
     UserTokenRepository userTokenRepository;
 
     @Override
-    public AppUserToken save(AppUserToken model) {
+    public Question save(AppUserToken model) {
        return this.userTokenRepository.save(model);
     }
 

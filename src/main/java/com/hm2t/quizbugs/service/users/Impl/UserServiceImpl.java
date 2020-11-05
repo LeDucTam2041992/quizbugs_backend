@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.service.users.Impl;
 
 import com.hm2t.quizbugs.config.jwt.model.CustomUserDetail;
+import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.repository.UserRepository;
 import com.hm2t.quizbugs.service.users.UserService;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public AppUser save(AppUser model) {
+    public Question save(AppUser model) {
        return this.userRepository.save(model);
     }
 
