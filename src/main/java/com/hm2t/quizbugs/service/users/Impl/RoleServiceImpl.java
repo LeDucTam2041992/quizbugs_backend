@@ -25,12 +25,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Question save(AppRole model) {
+    public AppRole save(AppRole model) {
         return this.roleRepository.save(model);
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
         this.roleRepository.deleteById(id);
     }
 

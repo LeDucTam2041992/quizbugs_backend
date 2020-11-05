@@ -9,7 +9,7 @@ public interface IService<T> {
 
     Optional<T> findById(long id);
 
-    Question save(T model);
+    T save(T model);
 
     void remove(Long id);
 }

@@ -23,12 +23,12 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Question save(Answer model) {
+    public Answer save(Answer model) {
         return answerRepository.save(model);
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
         answerRepository.deleteById(id);
     }
 

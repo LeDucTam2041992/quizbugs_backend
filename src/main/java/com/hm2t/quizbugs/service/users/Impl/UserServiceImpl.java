@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Question save(AppUser model) {
+    public AppUser save(AppUser model) {
        return this.userRepository.save(model);
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
         this.userRepository.deleteById(id);
     }
 

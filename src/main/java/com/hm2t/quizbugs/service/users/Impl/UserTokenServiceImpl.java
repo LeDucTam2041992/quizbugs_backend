@@ -17,12 +17,12 @@ public class UserTokenServiceImpl implements UserTokenService {
     UserTokenRepository userTokenRepository;
 
     @Override
-    public Question save(AppUserToken model) {
+    public AppUserToken save(AppUserToken model) {
        return this.userTokenRepository.save(model);
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
         this.userTokenRepository.deleteById(id);
     }
 
