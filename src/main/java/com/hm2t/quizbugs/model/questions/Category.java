@@ -1,7 +1,9 @@
 package com.hm2t.quizbugs.model.questions;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -12,6 +14,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "categories")
 @Data
 @JsonIgnoreProperties(value={"hibernateLazyInitializer", "handler", "fieldHandler"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
