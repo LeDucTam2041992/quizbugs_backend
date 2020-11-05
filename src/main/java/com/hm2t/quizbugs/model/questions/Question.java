@@ -19,7 +19,7 @@ import java.util.Set;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(columnDefinition = "Text")
     @NotBlank
@@ -28,7 +28,7 @@ public class Question {
 
     @Min(0)
     @Max(2)
-    private int type;
+    private Integer type;
 
     private int status = 1;
 

@@ -35,15 +35,17 @@ public class QuestionController {
 
     @PostMapping()
     public ResponseEntity<?> createQuestion(@Validated @RequestBody Question question, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()) {
+        if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editQuestion(@Validated @RequestBody Question question, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()){
+    public ResponseEntity<?> editQuestion(@Validated @RequestBody Question question, BindingResult bindingResult, @PathVariable("id") Long id) {
+        if (questionService.findById(id).isPresent())
+            question.setId(id);
+        if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);

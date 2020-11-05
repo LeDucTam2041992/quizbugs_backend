@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.service.users.Impl;
 
 import com.hm2t.quizbugs.config.jwt.model.CustomUserDetail;
+import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.repository.UserRepository;
 import com.hm2t.quizbugs.service.users.UserService;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<AppUser> findById(long id) {
+    public Optional<AppUser> findById(Long id) {
         return this.userRepository.findById(id);
     }
 
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
         this.userRepository.deleteById(id);
     }
 
