@@ -36,7 +36,7 @@ public class Question {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = CascadeType.PERSIST)
+    @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private List<Answer> answers;
 

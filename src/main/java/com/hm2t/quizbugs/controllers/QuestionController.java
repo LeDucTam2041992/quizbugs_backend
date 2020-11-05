@@ -38,8 +38,7 @@ public class QuestionController {
         if(bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        Question qs = questionService.save(question);
-        return new ResponseEntity<>(questionService.findById(qs.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
