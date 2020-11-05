@@ -20,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Optional<AppRole> findById(long id) {
+    public Optional<AppRole> findById(Long id) {
         return this.roleRepository.findById(id);
     }
 

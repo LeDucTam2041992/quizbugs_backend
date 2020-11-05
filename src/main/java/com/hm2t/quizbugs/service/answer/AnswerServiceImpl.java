@@ -18,7 +18,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Optional<Answer> findById(long id) {
+    public Optional<Answer> findById(Long id) {
         return answerRepository.findById(id);
     }
 

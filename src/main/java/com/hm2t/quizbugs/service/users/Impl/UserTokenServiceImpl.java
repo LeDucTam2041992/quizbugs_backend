@@ -47,7 +47,7 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
-    public Optional<AppUserToken> findById(long id) {
+    public Optional<AppUserToken> findById(Long id) {
         return Optional.empty();
     }
 

@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface IService<T> {
     Iterable<T> findAll();
 
-    Optional<T> findById(long id);
+    Optional<T> findById(Long id);
 
     T save(T model);
 

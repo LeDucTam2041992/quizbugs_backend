@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<AppUser> findById(long id) {
+    public Optional<AppUser> findById(Long id) {
         return this.userRepository.findById(id);
     }
 
