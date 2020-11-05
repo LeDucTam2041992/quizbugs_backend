@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "categories")
 @Data
 @Table(name = "category")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer", "handler", "fieldHandler"})
