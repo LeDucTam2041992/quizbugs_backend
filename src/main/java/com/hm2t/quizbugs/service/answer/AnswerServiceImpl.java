@@ -18,7 +18,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Optional<Answer> findById(long id) {
+    public Optional<Answer> findById(Long id) {
         return answerRepository.findById(id);
     }
 
@@ -28,7 +28,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
         answerRepository.deleteById(id);
     }
 

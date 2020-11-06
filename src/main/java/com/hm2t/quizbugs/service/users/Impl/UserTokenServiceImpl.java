@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.service.users.Impl;
 
 
+import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.model.users.AppUserToken;
 import com.hm2t.quizbugs.repository.UserTokenRepository;
@@ -21,7 +22,7 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
         this.userTokenRepository.deleteById(id);
     }
 
@@ -46,7 +47,7 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
-    public Optional<AppUserToken> findById(long id) {
+    public Optional<AppUserToken> findById(Long id) {
         return Optional.empty();
     }
 
