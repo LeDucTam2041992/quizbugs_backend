@@ -1,10 +1,14 @@
 package com.hm2t.quizbugs;
 
+import com.hm2t.quizbugs.model.Test.Test;
+import com.hm2t.quizbugs.model.Test.UserTest;
 import com.hm2t.quizbugs.model.questions.Answer;
 import com.hm2t.quizbugs.model.questions.Category;
 import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppRole;
 import com.hm2t.quizbugs.model.users.AppUser;
+import com.hm2t.quizbugs.service.Test.impl.TestServiceImpl;
+import com.hm2t.quizbugs.service.Test.impl.UserTestServiceImpl;
 import com.hm2t.quizbugs.service.answer.AnswerServiceImpl;
 import com.hm2t.quizbugs.service.questions.CategoryServiceImpl;
 import com.hm2t.quizbugs.service.questions.QuestionServiceImpl;
@@ -19,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class QuizbugsApplication implements CommandLineRunner {
@@ -44,6 +49,11 @@ public class QuizbugsApplication implements CommandLineRunner {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    TestServiceImpl testService;
+
+    @Autowired
+    UserTestServiceImpl userTestService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -120,9 +130,35 @@ public class QuizbugsApplication implements CommandLineRunner {
             answer3.setAnswer("bang 5");
             answer3.setStatus(false);
             answerService.save(answer3);
-
         }
 
+        Iterable<Test> testServiceAll = testService.findAll();
+        if (!testServiceAll.iterator().hasNext()){
+            Test test = new Test();
+            test.setName("JAVA_TEST");
+            testService.save(test);
+
+            Test test1 = new Test();
+            test1.setName("PHP_TEST");
+            testService.save(test1);
+        }
+
+        Iterable<UserTest> userTestServiceAll = userTestService.findAll();
+        if (!userTestServiceAll.iterator().hasNext()){
+            UserTest userTest1 = new UserTest();
+            userTest1.setTest(testService.findById(1L).get());
+            userTest1.setUser(userService.findById(1L).get());
+            userTest1.setMark(10.0);
+
+            userTestService.save(userTest1);
+
+            UserTest userTest2 = new UserTest();
+            userTest2.setTest(testService.findById(1L).get());
+            userTest2.setUser(userService.findById(1L).get());
+            userTest2.setMark(11.0);
+
+            userTestService.save(userTest2);
+        }
     }
 
 }

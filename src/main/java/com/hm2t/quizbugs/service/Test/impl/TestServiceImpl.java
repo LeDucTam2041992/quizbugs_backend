@@ -15,21 +15,21 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Iterable<Test> findAll() {
-        return null;
+        return testRepository.findAll();
     }
 
     @Override
     public Optional<Test> findById(Long id) {
-        return Optional.empty();
+        return testRepository.findById(id);
     }
 
     @Override
     public Test save(Test model) {
-        return null;
+        return testRepository.save(model);
     }
 
     @Override
     public void remove(Long id) {
-
+        testRepository.deleteById(id);
     }
 }

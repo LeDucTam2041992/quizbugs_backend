@@ -9,27 +9,27 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserTestImpl implements UserTestService {
+public class UserTestServiceImpl implements UserTestService {
     @Autowired
     UserTestRepository userTestRepository;
 
     @Override
     public Iterable<UserTest> findAll() {
-        return null;
+        return userTestRepository.findAll();
     }
 
     @Override
     public Optional<UserTest> findById(Long id) {
-        return Optional.empty();
+        return userTestRepository.findById(id);
     }
 
     @Override
     public UserTest save(UserTest model) {
-        return null;
+        return userTestRepository.save(model);
     }
 
     @Override
     public void remove(Long id) {
-
+        userTestRepository.deleteById(id);
     }
 }
