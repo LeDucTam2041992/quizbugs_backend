@@ -1,27 +1,28 @@
 package com.hm2t.quizbugs.model.Test;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hm2t.quizbugs.model.questions.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Test {
+public class UserAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private Long answerId;
 
-//    @OneToMany(mappedBy = "test")
-//    Set<UserTest> userTests;
+    private String answerValue;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    Set<Question> questionSet;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonBackReference
+//    @JoinColumn(name = "user_test_id")
+//    private UserTest userTest;
 }

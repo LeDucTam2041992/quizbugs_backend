@@ -136,6 +136,10 @@ public class QuizbugsApplication implements CommandLineRunner {
         if (!testServiceAll.iterator().hasNext()){
             Test test = new Test();
             test.setName("JAVA_TEST");
+            HashSet<Question> questionHashSet = new HashSet<>();
+            questionHashSet.add(questionService.findById(1L).get());
+            questionHashSet.add(questionService.findById(2L).get());
+            test.setQuestionSet(questionHashSet);
             testService.save(test);
 
             Test test1 = new Test();

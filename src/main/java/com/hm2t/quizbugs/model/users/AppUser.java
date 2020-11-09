@@ -37,6 +37,4 @@ public class AppUser {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<AppRole> roles;
 
-    @OneToMany(mappedBy = "user")
-    Set<UserTest> userTests;
 }
