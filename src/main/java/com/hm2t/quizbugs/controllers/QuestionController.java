@@ -46,6 +46,14 @@ public class QuestionController {
         if(bindingResult.hasFieldErrors()){
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+        Question qs =questionService.findById(question.getId()).get();
+        qs.setStatus(0);
+        questionService.save(qs);
+        question.setId((long) 0);
+        Iterable<Answer> answers = question.getAnswers();
+        for (Answer a:answers) {
+            a.setId(0);
+        }
         return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);
     }
 

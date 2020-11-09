@@ -32,9 +32,8 @@ public class Question {
 
     private int status = 1;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToMany
+    private List<Category> categories;
 
     @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference

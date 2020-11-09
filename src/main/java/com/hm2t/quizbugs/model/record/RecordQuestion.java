@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.model.record;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hm2t.quizbugs.model.questions.Answer;
 import com.hm2t.quizbugs.model.questions.Question;
