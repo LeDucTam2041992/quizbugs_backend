@@ -18,9 +18,8 @@ public class Test {
     private Long id;
 
     private String name;
-
-//    @OneToMany(mappedBy = "test")
-//    Set<UserTest> userTests;
+    @Column(columnDefinition = "boolean default true")
+    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Question> questionSet;

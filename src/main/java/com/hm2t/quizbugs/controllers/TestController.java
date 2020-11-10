@@ -23,7 +23,7 @@ public class TestController {
 
     @GetMapping
     public Iterable<Test> getAllTests(){
-        return testService.findAll();
+        return testService.findAllByEnabledTrue();
     }
 
     @PostMapping

@@ -32,4 +32,9 @@ public class TestServiceImpl implements TestService {
     public void remove(Long id) {
         testRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<Test> findAllByEnabledTrue() {
+        return testRepository.findAllByEnabledTrue();
+    }
 }
