@@ -1,10 +1,12 @@
 package com.hm2t.quizbugs.controllers;
 
+import com.hm2t.quizbugs.config.jwt.model.UpdatePassword;
 import com.hm2t.quizbugs.model.users.AppRole;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.service.users.Impl.RoleServiceImpl;
 import com.hm2t.quizbugs.service.users.Impl.UserServiceImpl;
 import com.hm2t.quizbugs.service.users.Impl.UserTokenServiceImpl;
+import org.bouncycastle.openssl.PasswordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,13 +49,20 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
-    public void doUpdatePassword(@RequestBody AppUser appUser,
-                                 @PathVariable("id") Long id) {
-        this.userService.findById(id).ifPresent((currentUser) -> {
-            currentUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
-            this.userService.save(currentUser);
-        });
+    @PutMapping("/updatePassword")
+    public void doUpdatePassword(@RequestBody UpdatePassword updatePassword) throws PasswordException {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            UserDetails userDetails = (UserDetails) principal;
+            boolean matches = passwordEncoder.matches(updatePassword.getOldPassword(), userDetails.getPassword());
+            if (matches){
+                AppUser currentUser = userService.findByUsername(userDetails.getUsername());
+                currentUser.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+                userService.save(currentUser);
+            } else {
+                throw new PasswordException("password not match");
+            }
+        }
     }
 
     @GetMapping("{id}")
