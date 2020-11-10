@@ -34,8 +34,16 @@ public class UserTestController {
 
     @PostMapping
     public ResponseEntity<UserTest> createUserTest(@RequestBody UserTest userTest){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
+        userTest.setUser(currentUser);
         UserTest useResult = userTestService.save(userTest);
         return new ResponseEntity<>(useResult,HttpStatus.OK);
+    }
+
+    @GetMapping("all")
+    public ResponseEntity<?> getAllUserTest(){
+        return new ResponseEntity<>(userTestService.findAll(),HttpStatus.OK);
     }
 
 }
