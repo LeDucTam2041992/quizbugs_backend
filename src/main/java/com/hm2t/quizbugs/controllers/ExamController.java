@@ -58,5 +58,11 @@ public class ExamController {
         }
         return new ResponseEntity<>(currentTest, HttpStatus.BAD_REQUEST);
     }
-
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteExam(@PathVariable("id") Long id) {
+        Optional<Exam> currentTest = examService.findById(id);
+        if(currentTest.isPresent())
+            currentTest.get().setEnabled(false);
+        return new ResponseEntity<>(currentTest,HttpStatus.OK);
+    }
 }

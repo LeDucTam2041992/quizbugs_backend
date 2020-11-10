@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/userExams")
 public class UserExamController {
     @Autowired
-    UserExamServiceImpl examService;
+    UserExamServiceImpl userExamService;
 
     @Autowired
     UserServiceImpl userService;
@@ -25,7 +25,7 @@ public class UserExamController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails){
             AppUser curUser = userService.findByUsername(((UserDetails) principal).getUsername());
-            Iterable<UserExam> allByUser = examService.findAllByUser(curUser);
+            Iterable<UserExam> allByUser = userExamService.findAllByUser(curUser);
             return new ResponseEntity<>(allByUser,HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -36,13 +36,17 @@ public class UserExamController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
         userExam.setUser(currentUser);
-        UserExam useResult = examService.save(userExam);
+        UserExam useResult = userExamService.save(userExam);
         return new ResponseEntity<>(useResult,HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllDoneExam(){
-        return new ResponseEntity<>(examService.findAll(),HttpStatus.OK);
+        return new ResponseEntity<>(userExamService.findAll(),HttpStatus.OK);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<?> getUserExamById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(userExamService.findById(id),HttpStatus.OK);
+    }
 }
