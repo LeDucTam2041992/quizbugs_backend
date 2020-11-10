@@ -38,5 +38,6 @@ public class UserTest {
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "userTest_id")
+    @JsonManagedReference
     private Set<UserAnswer> userAnswers;
 }
