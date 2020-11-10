@@ -1,6 +1,5 @@
 package com.hm2t.quizbugs.service.users.Impl;
 
-import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppRole;
 import com.hm2t.quizbugs.repository.RoleRepository;
 import com.hm2t.quizbugs.service.users.RoleService;

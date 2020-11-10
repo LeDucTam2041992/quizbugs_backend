@@ -2,7 +2,11 @@ package com.hm2t.quizbugs.model.questions;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -13,6 +17,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "answers")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +30,7 @@ public class Answer {
     private String answer;
 
     private boolean status;
+    private int isEnabled = 1;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
