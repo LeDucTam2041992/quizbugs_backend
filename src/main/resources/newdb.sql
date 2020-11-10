@@ -1,6 +1,22 @@
 create database if not exists quiz_bugs;
 use quiz_bugs;
 
+
+create table  users
+(
+    id       bigint auto_increment
+        primary key,
+    password varchar(255) not null,
+    username varchar(20)  not null,
+    constraint UK_r43af9ap4edm43mmtq01oddj6
+        unique (username)
+)
+    engine = MyISAM;
+
+INSERT INTO quiz_bugs.users (id, password, username) VALUES (1, '123123', 'huy123');
+INSERT INTO quiz_bugs.users (id, password, username) VALUES (2, '123123', 'admin');
+
+
 create table roles
 (
     id   bigint auto_increment
@@ -11,6 +27,21 @@ create table roles
 
 INSERT INTO quiz_bugs.roles (id, name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO quiz_bugs.roles (id, name) VALUES (2, 'ROLE_USER');
+
+
+create table users_roles
+(
+    app_user_id bigint not null,
+    roles_id    bigint not null,
+    primary key (app_user_id, roles_id)
+)
+    engine = MyISAM;
+
+create index FKa62j07k5mhgifpp955h37ponj
+    on users_roles (roles_id);
+
+INSERT INTO quiz_bugs.users_roles (app_user_id, roles_id) VALUES (1, 2);
+INSERT INTO quiz_bugs.users_roles (app_user_id, roles_id) VALUES (2, 2);
 
 create table categories
 (
@@ -136,3 +167,27 @@ INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (41, 'A',
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (42, 'AC', false, 10);
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (43, 'BC', false, 10);
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (44, 'B', false, 10);
+
+
+
+create table questions_categories
+(
+    question_id   bigint not null,
+    categories_id bigint not null,
+    primary key (question_id, categories_id)
+)
+    engine = MyISAM;
+
+create index FKnc15vp2xx6jvpytgiyp2l7j44
+    on questions_categories (categories_id);
+
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (1, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (2, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (3, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (4, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (5, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (6, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (7, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (8, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (9, 2);
+INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (10, 2);
