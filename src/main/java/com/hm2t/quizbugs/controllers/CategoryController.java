@@ -1,21 +1,14 @@
 package com.hm2t.quizbugs.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hm2t.quizbugs.model.questions.Category;
-import com.hm2t.quizbugs.service.questions.CategoryService;
-import com.hm2t.quizbugs.service.questions.CategoryServiceImpl;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.hm2t.quizbugs.service.catogories.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,7 +20,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Iterable<Category>> listCategories(){
-        Iterable<Category> listCategories = categoryService.findAllByIsEnabled(1);
+        Iterable<Category> listCategories = categoryService.findAllByIsEnabledTrue();
             return new ResponseEntity<>(listCategories,HttpStatus.OK);
     }
 
@@ -60,7 +53,7 @@ public class CategoryController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable("id") Long id){
         Optional<Category> currentCategory = categoryService.findById(id);
-        currentCategory.get().setIsEnabled(0);
+        currentCategory.get().setEnabled(false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

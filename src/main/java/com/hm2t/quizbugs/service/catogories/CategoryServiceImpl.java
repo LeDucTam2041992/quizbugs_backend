@@ -1,7 +1,6 @@
-package com.hm2t.quizbugs.service.questions;
+package com.hm2t.quizbugs.service.catogories;
 
 import com.hm2t.quizbugs.model.questions.Category;
-import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +35,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Long findTopOrderByIdDesc() {
-        return categoryRepository.findTopOrderByIdDesc();
-    }
-
-    @Override
-    public Iterable<Category> findAllByIsEnabled(int isEnabled) {
-        return categoryRepository.findAllByIsEnabled(isEnabled);
+    public Iterable<Category> findAllByIsEnabledTrue() {
+        return categoryRepository.findAllByEnabledTrue();
     }
 }
