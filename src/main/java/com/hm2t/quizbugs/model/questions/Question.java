@@ -2,7 +2,9 @@ package com.hm2t.quizbugs.model.questions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -16,6 +18,8 @@ import java.util.Set;
 @Entity
 @Table(name = "questions")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +36,8 @@ public class Question {
 
     private int status = 1;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Category> categories;
 
     @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference

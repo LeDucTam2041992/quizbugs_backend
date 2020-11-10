@@ -34,4 +34,9 @@ public class CategoryServiceImpl implements CategoryService{
     public void remove(Long id) {
         categoryRepository.deleteById(id);
     }
+
+    @Override
+    public Long findTopOrderByIdDesc() {
+        return categoryRepository.findTopOrderByIdDesc();
+    }
 }
