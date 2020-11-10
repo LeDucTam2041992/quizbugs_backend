@@ -1,6 +1,7 @@
 package com.hm2t.quizbugs.service.Test.impl;
 
 import com.hm2t.quizbugs.model.Test.UserTest;
+import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.repository.UserTestRepository;
 import com.hm2t.quizbugs.service.Test.UserTestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class UserTestServiceImpl implements UserTestService {
     @Override
     public void remove(Long id) {
         userTestRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<UserTest> findAllByUser(AppUser user) {
+        return userTestRepository.findAllByUserOrderByDate(user);
     }
 }

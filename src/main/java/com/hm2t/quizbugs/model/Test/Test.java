@@ -19,8 +19,7 @@ public class Test {
 
     private String name;
 
-//    @OneToMany(mappedBy = "test")
-//    Set<UserTest> userTests;
+    private boolean isEnabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Question> questionSet;
