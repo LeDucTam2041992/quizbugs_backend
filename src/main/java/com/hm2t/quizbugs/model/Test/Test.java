@@ -18,8 +18,8 @@ public class Test {
     private Long id;
 
     private String name;
-
-    private boolean isEnabled;
+    @Column(columnDefinition = "boolean default true")
+    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Question> questionSet;

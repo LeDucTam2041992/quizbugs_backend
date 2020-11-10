@@ -33,7 +33,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public Iterable<Question> findAllByIsEnabled(int isEnabled) {
-        return questionRepository.findAllByIsEnabled(isEnabled);
+    public Iterable<Question> findAllByIsEnabled() {
+        return questionRepository.findAllByEnabledTrue();
     }
 }
