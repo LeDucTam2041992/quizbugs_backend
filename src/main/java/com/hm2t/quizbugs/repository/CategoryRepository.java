@@ -7,9 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
-
-    @Query(value = "select max(id) from categories",nativeQuery = true)
-    Long findTopOrderByIdDesc();
-
-    Iterable<Category> findAllByIsEnabled(int isEnabled);
+    Iterable<Category> findAllByEnabledTrue();
 }

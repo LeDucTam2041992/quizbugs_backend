@@ -35,4 +35,5 @@ public class AppUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<AppRole> roles;
+
 }

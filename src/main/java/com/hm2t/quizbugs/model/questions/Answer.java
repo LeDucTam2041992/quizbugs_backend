@@ -30,7 +30,7 @@ public class Answer {
     private String answer;
 
     private boolean status;
-    private int isEnabled = 1;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference

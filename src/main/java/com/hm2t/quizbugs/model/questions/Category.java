@@ -25,5 +25,6 @@ public class Category {
     @NotNull
     @Length(max = 50)
     private String category;
-    private int isEnabled = 1;
+    @Column(columnDefinition = "boolean default true")
+    private boolean enabled = true;
 }

@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         );
         return new CustomUserDetail(appUser);
     }
+
+    @Override
+    public AppUser findByUsername(String username) {
+        return userRepository.findAppUserByUsername(username);
+    }
 }
