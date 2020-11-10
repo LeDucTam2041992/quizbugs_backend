@@ -24,7 +24,7 @@ public class QuestionController {
 
     @GetMapping()
     public ResponseEntity<Iterable<Question>> getAllQuestion() {
-        Iterable<Question> questions = questionService.findAllByStatus(1);
+        Iterable<Question> questions = questionService.findAllByIsEnabled(1);
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") long id) {
         Optional<Question> question = questionService.findById(id);
-        question.get().setEnabled(false);
+        question.get().setIsEnabled(0);
         questionService.save(question.get());
         return new ResponseEntity<>(HttpStatus.OK);
     }

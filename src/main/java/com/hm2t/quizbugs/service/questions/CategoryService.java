@@ -5,4 +5,5 @@ import com.hm2t.quizbugs.service.IService;
 
 public interface CategoryService extends IService<Category> {
     Long findTopOrderByIdDesc();
+    Iterable<Category> findAllByIsEnabled(int isEnabled);
 }

@@ -39,4 +39,9 @@ public class CategoryServiceImpl implements CategoryService{
     public Long findTopOrderByIdDesc() {
         return categoryRepository.findTopOrderByIdDesc();
     }
+
+    @Override
+    public Iterable<Category> findAllByIsEnabled(int isEnabled) {
+        return categoryRepository.findAllByIsEnabled(isEnabled);
+    }
 }

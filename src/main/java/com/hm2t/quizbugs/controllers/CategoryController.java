@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/categories")
 @CrossOrigin("*")
 public class CategoryController {
@@ -27,7 +27,8 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Iterable<Category>> listCategories(){
-            return new ResponseEntity<>(getListCategories(),HttpStatus.OK);
+        Iterable<Category> listCategories = categoryService.findAllByIsEnabled(1);
+            return new ResponseEntity<>(listCategories,HttpStatus.OK);
     }
 
     @GetMapping("{id}")
@@ -51,7 +52,7 @@ public class CategoryController {
         }
         Optional<Category> currentCategory = categoryService.findById(id);
         if(currentCategory.isPresent()) {
-            category.setId(id);
+            currentCategory.get().setIsEnabled(0);
             categoryService.save(category);
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -59,10 +60,8 @@ public class CategoryController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable("id") Long id){
         Optional<Category> currentCategory = categoryService.findById(id);
-        currentCategory.get().setEnabled(false);
+        currentCategory.get().setIsEnabled(0);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    private Iterable<Category> getListCategories(){
-        return categoryService.findAll();
-    }
+
 }
