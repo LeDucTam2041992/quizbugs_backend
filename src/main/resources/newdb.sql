@@ -2,7 +2,7 @@ create database if not exists quiz_bugs;
 use quiz_bugs;
 
 
-create table  users
+create table if not exists users
 (
     id       bigint auto_increment
         primary key,
@@ -17,7 +17,7 @@ INSERT INTO quiz_bugs.users (id, password, username) VALUES (1, '123123', 'huy12
 INSERT INTO quiz_bugs.users (id, password, username) VALUES (2, '123123', 'admin');
 
 
-create table roles
+create table if not exists roles
 (
     id   bigint auto_increment
         primary key,
@@ -29,7 +29,7 @@ INSERT INTO quiz_bugs.roles (id, name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO quiz_bugs.roles (id, name) VALUES (2, 'ROLE_USER');
 
 
-create table users_roles
+create table if not exists users_roles
 (
     app_user_id bigint not null,
     roles_id    bigint not null,
@@ -43,7 +43,7 @@ create index FKa62j07k5mhgifpp955h37ponj
 INSERT INTO quiz_bugs.users_roles (app_user_id, roles_id) VALUES (1, 2);
 INSERT INTO quiz_bugs.users_roles (app_user_id, roles_id) VALUES (2, 2);
 
-create table categories
+create table if not exists categories
 (
     id       bigint auto_increment
         primary key,
@@ -57,7 +57,7 @@ INSERT INTO quiz_bugs.categories (id, category) VALUES (3, 'SQL');
 
 
 
-create table questions
+create table if not exists questions
 (
     id       bigint auto_increment
         primary key,
@@ -110,15 +110,15 @@ if(x < 16) {
   System.out.println("C");
 }', 0);
 
-create table answers
+create table if not exists  answers
 (
     id          bigint auto_increment
-        primary key,
+    primary key,
     answer      text   not null,
     status      bit    not null,
     question_id bigint null
 )
-    engine = MyISAM;
+engine = MyISAM;
 
 create index FK3erw1a3t0r78st8ty27x6v3g1
     on answers (question_id);
@@ -162,13 +162,13 @@ INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (44, 'B',
 
 
 
-create table questions_categories
+create table if not exists questions_categories
 (
     question_id   bigint not null,
     categories_id bigint not null,
     primary key (question_id, categories_id)
 )
-    engine = MyISAM;
+engine = MyISAM;
 
 create index FKnc15vp2xx6jvpytgiyp2l7j44
     on questions_categories (categories_id);
@@ -221,3 +221,51 @@ INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 7)
 INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 8);
 INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 9);
 INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 10);
+
+
+create table if not exists user_exam
+(
+    id      bigint auto_increment
+        primary key,
+    date    datetime null,
+    mark    double   null,
+    test_id bigint   null,
+    user_id bigint   null
+)
+    engine = MyISAM;
+
+create index FKa9qjdk6ko6a13anaa4wkvblrq
+    on user_exam (user_id);
+
+create index FKfsagvb6xkhgqqowwyn5gstfnb
+    on user_exam (test_id);
+
+INSERT INTO quiz_bugs.user_exam (id, date, mark, test_id, user_id) VALUES (1, '2020-11-10 17:00:10', null, 1, 1);
+
+
+create table if not exists user_answer
+(
+    id           bigint auto_increment
+        primary key,
+    input_answer varchar(255) null,
+    answer_id    bigint       null,
+    user_test_id bigint       null
+)
+    engine = MyISAM;
+
+create index FK7pf3nw73u6r5lxsqilqi238dx
+    on user_answer (answer_id);
+
+create index FK8dom2k11788cr7y8rg9q268is
+    on user_answer (user_test_id);
+
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (1, null, 2, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (2, null, 5, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (3, null, 15, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (4, null, 19, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (5, null, 25, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (6, null, 34, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (7, null, 29, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (8, null, 33, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (9, null, 24, 1);
+INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (10, null, 36, 1);
