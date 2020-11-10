@@ -24,7 +24,7 @@ public class QuestionController {
 
     @GetMapping()
     public ResponseEntity<Iterable<Question>> getAllQuestion() {
-        Iterable<Question> questions = questionService.findAllByStatus(1);
+        Iterable<Question> questions = questionService.findAllByIsEnabled(1);
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 
@@ -35,16 +35,21 @@ public class QuestionController {
 
     @PostMapping()
     public ResponseEntity<?> createQuestion(@Validated @RequestBody Question question, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()) {
+        if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editQuestion(@Validated @RequestBody Question question, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()){
+    public ResponseEntity<?> editQuestion(@Validated @RequestBody Question question, BindingResult bindingResult, @PathVariable("id") Long id) {
+        if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        Optional<Question> currentQuestion = questionService.findById(id);
+        if (currentQuestion.isPresent()) {
+            currentQuestion.get().setIsEnabled(0);
+            questionService.save(question);
         }
         return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);
     }
@@ -52,7 +57,7 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") long id) {
         Optional<Question> question = questionService.findById(id);
-        question.get().setStatus(0);
+        question.get().setIsEnabled(0);
         questionService.save(question.get());
         return new ResponseEntity<>(HttpStatus.OK);
     }

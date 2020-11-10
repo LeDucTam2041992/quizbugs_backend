@@ -67,7 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/login", "/users").permitAll()
                 .antMatchers("/users/**").access("hasRole('USER') or hasRole('ADMIN')")
                 .anyRequest().permitAll();
-//                .anyRequest().authenticated();
 
 
         http.cors().configurationSource(request -> {
@@ -78,6 +77,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             return cors;
         });
     }
-
-
 }
