@@ -1,7 +1,5 @@
-package com.hm2t.quizbugs.model.Test;
+package com.hm2t.quizbugs.model.exam;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hm2t.quizbugs.model.questions.Answer;
 import com.hm2t.quizbugs.model.users.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +14,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserTest {
+public class UserExam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +25,7 @@ public class UserTest {
 
     @ManyToOne
     @JoinColumn(name = "test_id")
-    private Test test;
+    private Exam exam;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

@@ -1,6 +1,5 @@
 package com.hm2t.quizbugs.model.users;
 
-import com.hm2t.quizbugs.model.Test.UserTest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.hm2t.quizbugs.model.Test;
+package com.hm2t.quizbugs.model.exam;
 
 import com.hm2t.quizbugs.model.questions.Answer;
 import lombok.AllArgsConstructor;

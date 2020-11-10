@@ -1,8 +1,8 @@
-package com.hm2t.quizbugs.service.Test.impl;
+package com.hm2t.quizbugs.service.exam.impl;
 
-import com.hm2t.quizbugs.model.Test.UserAnswer;
+import com.hm2t.quizbugs.model.exam.UserAnswer;
 import com.hm2t.quizbugs.repository.UserAnswerRepository;
-import com.hm2t.quizbugs.service.Test.UserAnswerService;
+import com.hm2t.quizbugs.service.exam.UserAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

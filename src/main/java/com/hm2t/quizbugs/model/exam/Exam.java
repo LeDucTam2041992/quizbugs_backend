@@ -1,4 +1,4 @@
-package com.hm2t.quizbugs.model.Test;
+package com.hm2t.quizbugs.model.exam;
 
 import com.hm2t.quizbugs.model.questions.Question;
 import lombok.*;
@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Test {
+public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
