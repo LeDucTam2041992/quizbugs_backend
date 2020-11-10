@@ -31,7 +31,7 @@ public class Question {
     private String question;
 
     @Min(0)
-    @Max(2)
+    @Max(3)
     private Integer type;
 
     @Column(columnDefinition = "boolean default true")

@@ -125,14 +125,6 @@ create index FK3erw1a3t0r78st8ty27x6v3g1
 
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (1, 'Hướng đối tượng', true, 1);
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (2, 'Hướng cấu trúc', false, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (3, 'Hướng đối tượng', true, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (4, 'Hướng đối tượng', true, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (5, 'Hướng đối tượng', true, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (6, 'Hướng cấu trúc', true, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (7, 'Hướng đối tượng', true, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (8, 'Hướng cấu trúc', false, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (9, 'Hướng đối tượng', true, 1);
-INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (10, 'Hướng cấu trúc', false, 1);
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (11, 'Dựa trên đối tượng', false, 1);
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (12, 'Hướng hành vi', false, 1);
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (13, 'True', false, 2);
@@ -191,3 +183,41 @@ INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (
 INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (8, 2);
 INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (9, 2);
 INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (10, 2);
+
+
+
+create table if not exists exam
+(
+    id      bigint auto_increment
+        primary key,
+    enabled tinyint(1) default 1 null,
+    name    text                 not null
+)
+    engine = MyISAM;
+
+INSERT INTO quiz_bugs.exam (id, enabled, name) VALUES (1, 1, 'Java_Core_1');
+INSERT INTO quiz_bugs.exam (id, enabled, name) VALUES (2, 1, 'SQL_Data');
+
+
+
+create table if not exists exam_question_set
+(
+    exam_id         bigint not null,
+    question_set_id bigint not null,
+    primary key (exam_id, question_set_id)
+)
+    engine = MyISAM;
+
+create index FKrfns00ngbxn1qkh9vkr7pe8ly
+    on exam_question_set (question_set_id);
+
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 1);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 2);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 3);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 4);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 5);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 6);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 7);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 8);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 9);
+INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 10);
