@@ -52,7 +52,7 @@ public class CategoryController {
         }
         Optional<Category> currentCategory = categoryService.findById(id);
         if(currentCategory.isPresent()) {
-            currentCategory.get().setIsEnabled(0);
+            category.setId(id);
             categoryService.save(category);
         }
         return new ResponseEntity<>(HttpStatus.OK);

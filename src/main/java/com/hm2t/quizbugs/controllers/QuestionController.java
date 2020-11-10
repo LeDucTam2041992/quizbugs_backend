@@ -43,10 +43,13 @@ public class QuestionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> editQuestion(@Validated @RequestBody Question question, BindingResult bindingResult, @PathVariable("id") Long id) {
-        if (questionService.findById(id).isPresent())
-            question.setId(id);
         if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        Optional<Question> currentQuestion = questionService.findById(id);
+        if (currentQuestion.isPresent()) {
+            currentQuestion.get().setIsEnabled(0);
+            questionService.save(question);
         }
         return new ResponseEntity<>(questionService.save(question), HttpStatus.OK);
     }
