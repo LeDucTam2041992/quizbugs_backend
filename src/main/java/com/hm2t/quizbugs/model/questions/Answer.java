@@ -31,8 +31,6 @@ public class Answer {
 
     private boolean status;
 
-    @Column(columnDefinition = "boolean default true")
-    private boolean enabled;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference

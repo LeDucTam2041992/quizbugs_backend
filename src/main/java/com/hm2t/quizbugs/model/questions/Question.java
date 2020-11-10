@@ -35,7 +35,7 @@ public class Question {
     private Integer type;
 
     @Column(columnDefinition = "boolean default true")
-    private boolean enabled;
+    private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Category> categories;

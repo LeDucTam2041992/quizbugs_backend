@@ -26,5 +26,5 @@ public class Category {
     @Length(max = 50)
     private String category;
     @Column(columnDefinition = "boolean default true")
-    private boolean enabled;
+    private boolean enabled = true;
 }
