@@ -59,8 +59,7 @@ public class CategoryController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable("id") Long id){
         Optional<Category> currentCategory = categoryService.findById(id);
-        if(currentCategory.isPresent())
-            categoryService.remove(id);
+        currentCategory.get().setEnabled(false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     private Iterable<Category> getListCategories(){

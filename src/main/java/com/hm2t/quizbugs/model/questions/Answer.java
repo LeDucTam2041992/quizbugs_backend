@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -28,6 +30,9 @@ public class Answer {
     private String answer;
 
     private boolean status;
+
+    @Column(columnDefinition = "boolean default true")
+    private boolean isEnabled;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference

@@ -54,7 +54,7 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") long id) {
         Optional<Question> question = questionService.findById(id);
-        question.get().setStatus(0);
+        question.get().setEnabled(false);
         questionService.save(question.get());
         return new ResponseEntity<>(HttpStatus.OK);
     }
