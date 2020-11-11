@@ -3,6 +3,7 @@ package com.hm2t.quizbugs.controllers;
 import com.hm2t.quizbugs.model.exam.UserAnswer;
 import com.hm2t.quizbugs.model.exam.UserExam;
 import com.hm2t.quizbugs.model.questions.Answer;
+import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.service.answer.AnswerServiceImpl;
 import com.hm2t.quizbugs.service.exam.impl.UserExamServiceImpl;
@@ -20,6 +21,8 @@ import java.util.Set;
 @RequestMapping("/userExams")
 public class UserExamController {
    private double currentMark =10;
+   private double checkboxMark =1;
+
     @Autowired
     UserExamServiceImpl userExamService;
 
@@ -46,11 +49,18 @@ public class UserExamController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
 
+
+
+
         Set<UserAnswer> userAnswers = userExam.getUserAnswers();
         for(UserAnswer c : userAnswers){
              Answer answer = answerService.findById(c.getAnswer().getId()).get() ;
-            System.out.println(answer);
-             if (!answer.isStatus()){
+            Question qs = answer.getQuestion();
+            if (qs.getType() == 1 && !answer.isStatus()){
+                checkboxMark = checkboxMark - 0.25;
+            }
+
+             if (!answer.isStatus() && qs.getType() != 1 ){
                  currentMark = currentMark -1 ;
              }
             System.out.println(currentMark);
