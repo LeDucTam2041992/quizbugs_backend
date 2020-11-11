@@ -1,4 +1,4 @@
-package com.hm2t.quizbugs.service.questions;
+package com.hm2t.quizbugs.service.catogories;
 
 import com.hm2t.quizbugs.model.questions.Category;
 import com.hm2t.quizbugs.repository.CategoryRepository;
@@ -13,24 +13,29 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService{
     @Autowired
     CategoryRepository categoryRepository;
-
     @Override
-    public Iterable<Category> findAll() {
+    public List<Category> findAll() {
         return categoryRepository.findAll();
     }
 
     @Override
-    public Optional<Category> findById(long id) {
-        return categoryRepository.findById(id);
+    public Optional<Category> findById(Long id) {
+        return Optional.of(categoryRepository.getOne(id));
     }
 
     @Override
-    public Category save(Category model) {
-        return categoryRepository.save(model);
+    public Category save(Category category) {
+        categoryRepository.save(category);
+        return null;
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(Long id) {
+        categoryRepository.deleteById(id);
+    }
 
+    @Override
+    public Iterable<Category> findAllByIsEnabledTrue() {
+        return categoryRepository.findAllByEnabledTrue();
     }
 }

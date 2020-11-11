@@ -27,13 +27,14 @@ public class Question {
     private String question;
 
     @Min(0)
-    @Max(2)
+    @Max(3)
     private Integer type;
 
-    private int status = 1;
+    @Column(columnDefinition = "boolean default true")
+    private boolean enabled = true;
 
-    @ManyToMany
-    private List<Category> categories;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Category> categories;
 
     @OneToMany(targetEntity = Answer.class, mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference

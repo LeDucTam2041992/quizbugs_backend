@@ -18,7 +18,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public Optional<Question> findById(long id) {
+    public Optional<Question> findById(Long id) {
         return questionRepository.findById(id);
     }
 
@@ -28,12 +28,12 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public void remove(long id) {
-
+    public void remove(Long id) {
+        questionRepository.deleteById(id);
     }
 
     @Override
-    public Iterable<Question> findAllByStatus(int status) {
-        return questionRepository.findAllByStatus(status);
+    public Iterable<Question> findAllByIsEnabled() {
+        return questionRepository.findAllByEnabledTrue();
     }
 }
