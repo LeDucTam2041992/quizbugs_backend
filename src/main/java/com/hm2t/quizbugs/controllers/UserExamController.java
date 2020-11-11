@@ -19,6 +19,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/userExams")
 public class UserExamController {
+   private double currentMark =10;
     @Autowired
     UserExamServiceImpl userExamService;
 
@@ -44,16 +45,17 @@ public class UserExamController {
     public ResponseEntity<UserExam> createExamForUser(@RequestBody UserExam userExam){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
-        double currentMark =10;
+
         Set<UserAnswer> userAnswers = userExam.getUserAnswers();
         for(UserAnswer c : userAnswers){
              Answer answer = answerService.findById(c.getAnswer().getId()).get() ;
-             if (answer.isStatus()){
+            System.out.println(answer);
+             if (!answer.isStatus()){
                  currentMark = currentMark -1 ;
              }
             System.out.println(currentMark);
         }
-        ;
+
         userExam.setMark(currentMark);
         userExam.setUser(currentUser);
         UserExam useResult = userExamService.save(userExam);
