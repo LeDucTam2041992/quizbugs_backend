@@ -23,6 +23,7 @@ import java.util.Set;
 public class UserExamController {
    private double currentMark =10;
 
+
    private Set<UserAnswer> userAnswers;
 
     @Autowired
@@ -54,19 +55,18 @@ public class UserExamController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
         Set<UserAnswer> userAnswers = userExam.getUserAnswers();
+        int size = userAnswers.size();
+
         for (UserAnswer c : userAnswers) {
             Answer answer = answerService.findById(c.getAnswer().getId()).get();
             Long qs_id = answer.getQuestion().getId();
             Question qs = questionsService.findById(qs_id).get();
-
-
             boolean b = qs.getType() == 1 && !answer.isStatus();
             if (b) {
-
                 currentMark = currentMark - 0.25;
             }
             if (!answer.isStatus() && qs.getType() != 1) {
-                currentMark = currentMark - 1;
+                currentMark = currentMark - currentMark/size ;
             }
             System.out.println(currentMark);
         }
