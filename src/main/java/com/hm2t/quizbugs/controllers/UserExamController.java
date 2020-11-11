@@ -70,7 +70,7 @@ public class UserExamController {
             }
             System.out.println(currentMark);
         }
-           if (currentMark <= 0){ currentMark = 0;}
+           if (currentMark < 0){ currentMark = 0;}
         userExam.setMark(currentMark);
         userExam.setUser(currentUser);
         UserExam useResult = userExamService.save(userExam);
