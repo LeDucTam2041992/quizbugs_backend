@@ -71,8 +71,10 @@ public class UserExamController {
             System.out.println(currentMark);
         }
            if (currentMark < 0){ currentMark = 0;}
-        userExam.setMark(currentMark);
-        userExam.setMark(Double.parseDouble(String.valueOf((Math.round(currentMark*100)/100))));
+
+        long l = (Math.round(currentMark * 100)) ;
+        double d = ((double) l)/100;
+        userExam.setMark(Double.parseDouble(String.valueOf(d)));
         userExam.setUser(currentUser);
         UserExam useResult = userExamService.save(userExam);
         return new ResponseEntity<>(useResult, HttpStatus.OK);
