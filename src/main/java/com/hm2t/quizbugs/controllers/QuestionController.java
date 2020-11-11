@@ -24,7 +24,7 @@ public class QuestionController {
 
     @GetMapping()
     public ResponseEntity<Iterable<Question>> getAllQuestion() {
-        Iterable<Question> questions = questionService.findAllByStatus(1);
+        Iterable<Question> questions = questionService.findAllByIsEnabled(true);
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 
@@ -47,7 +47,7 @@ public class QuestionController {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         Question qs =questionService.findById(question.getId()).get();
-        qs.setStatus(0);
+        qs.setEnabled(false);
         questionService.save(qs);
         question.setId((long) 0);
         Iterable<Answer> answers = question.getAnswers();
@@ -60,7 +60,7 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") long id) {
         Optional<Question> question = questionService.findById(id);
-        question.get().setStatus(0);
+        question.get().setEnabled(false);
         questionService.save(question.get());
         return new ResponseEntity<>(HttpStatus.OK);
     }

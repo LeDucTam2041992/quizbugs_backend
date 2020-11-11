@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-    Iterable<Question> findAllByEnabledTrue();
+    Iterable<Question> findAllByEnabled(boolean enabled);
 }
