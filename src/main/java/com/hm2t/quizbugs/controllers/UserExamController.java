@@ -7,6 +7,7 @@ import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.service.answer.AnswerServiceImpl;
 import com.hm2t.quizbugs.service.exam.impl.UserExamServiceImpl;
+import com.hm2t.quizbugs.service.questions.QuestionServiceImpl;
 import com.hm2t.quizbugs.service.users.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,8 @@ import java.util.Set;
 @RequestMapping("/userExams")
 public class UserExamController {
    private double currentMark =10;
-   private double checkboxMark =1;
+
+   private Set<UserAnswer> userAnswers;
 
     @Autowired
     UserExamServiceImpl userExamService;
@@ -30,6 +32,9 @@ public class UserExamController {
     UserServiceImpl userService;
     @Autowired
     AnswerServiceImpl answerService;
+    @Autowired
+    QuestionServiceImpl questionsService;
+
 
 
 
@@ -45,31 +50,31 @@ public class UserExamController {
     }
 
     @PostMapping
-    public ResponseEntity<UserExam> createExamForUser(@RequestBody UserExam userExam){
+    public ResponseEntity<UserExam> createExamForUser(@RequestBody UserExam userExam) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
-
-
-
-
         Set<UserAnswer> userAnswers = userExam.getUserAnswers();
-        for(UserAnswer c : userAnswers){
-             Answer answer = answerService.findById(c.getAnswer().getId()).get() ;
-            Question qs = answer.getQuestion();
-            if (qs.getType() == 1 && !answer.isStatus()){
-                checkboxMark = checkboxMark - 0.25;
-            }
+        for (UserAnswer c : userAnswers) {
+            Answer answer = answerService.findById(c.getAnswer().getId()).get();
+            Long qs_id = answer.getQuestion().getId();
+            Question qs = questionsService.findById(qs_id).get();
 
-             if (!answer.isStatus() && qs.getType() != 1 ){
-                 currentMark = currentMark -1 ;
-             }
+
+            boolean b = qs.getType() == 1 && !answer.isStatus();
+            if (b) {
+
+                currentMark = currentMark - 0.25;
+            }
+            if (!answer.isStatus() && qs.getType() != 1) {
+                currentMark = currentMark - 1;
+            }
             System.out.println(currentMark);
         }
-
+           if (currentMark <= 0){ currentMark = 0;}
         userExam.setMark(currentMark);
         userExam.setUser(currentUser);
         UserExam useResult = userExamService.save(userExam);
-        return new ResponseEntity<>(useResult,HttpStatus.OK);
+        return new ResponseEntity<>(useResult, HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
