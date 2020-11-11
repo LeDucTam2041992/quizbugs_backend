@@ -42,7 +42,10 @@ public class ExamController {
         examService.findById(1L).get();
         return new ResponseEntity<>(examService.save(exam), HttpStatus.OK);
     }
-
+    @GetMapping("{id}")
+    public ResponseEntity<?> getExamById(@PathVariable("id")Long id){
+        return new ResponseEntity<>(examService.findById(id),HttpStatus.OK);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateExam(@Validated @RequestBody Exam exam,
                                         BindingResult bindingResult,
