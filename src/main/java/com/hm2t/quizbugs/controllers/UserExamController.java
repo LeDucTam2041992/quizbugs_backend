@@ -68,15 +68,16 @@ public class UserExamController {
         double OneTrueQuestion = 1/lengthQuestions;
         double userPoint = 0;
         for (UserAnswer uA : userAnswers) {
-            Answer answer = answerService.findById(uA.getAnswer().getId()).get();
-            if(answer.isStatus()){
-                Question question = answer.getQuestion();
+            Optional<Answer> answer = answerService.findById(uA.getAnswer().getId());
+            if(answer.get().isStatus()){
+                Question question = answer.get().getQuestion();
                 boolean onlyTrue = question.getType() == 2 || question.getType() == 0;
                 if(onlyTrue) {
                     userPoint+= OneTrueQuestion;
                 } else {
                     int truePoint = 0;
-                    for(Answer a: answer.getQuestion().getAnswers()){
+                    Question currentQuestion = answer.get().getQuestion();
+                    for(Answer a: currentQuestion.getAnswers()){
                         if(a.isStatus())
                             truePoint++;
                     }
@@ -85,7 +86,8 @@ public class UserExamController {
             }
         }
         userExam.setMark(userPoint);
-        return new ResponseEntity<>(userExam,HttpStatus.OK);
+        userExam.setUser(currentUser);
+        return new ResponseEntity<>(userExamService.save(userExam),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
