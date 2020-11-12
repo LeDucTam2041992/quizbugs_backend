@@ -90,8 +90,8 @@ public class UserExamController {
         }
         userExam.setMark(userPoint);
         userExam.setUser(currentUser);
-        return new ResponseEntity<>(userExamService.save(userExam),HttpStatus.OK);
-}
+        return new ResponseEntity<>(userExamService.save(userExam), HttpStatus.OK);
+    }
 
     @GetMapping("/getAll")
     @Secured({"ROLE_ADMIN"})
@@ -107,8 +107,14 @@ public class UserExamController {
 
     @GetMapping("users/{id}")
     @Secured({"ROLE_ADMIN"})
-    public ResponseEntity<?> getAllExamsOfUserById(@PathVariable("id")Long id) {
-        Optional<AppUser> currentUser =  userService.findById(id);
-         return new ResponseEntity<>(userExamService.findAllByUser(currentUser.get()),HttpStatus.OK);
+    public ResponseEntity<?> getAllExamsOfUserById(@PathVariable("id") Long id) {
+        Optional<AppUser> currentUser = userService.findById(id);
+        return new ResponseEntity<>(userExamService.findAllByUser(currentUser.get()), HttpStatus.OK);
+    }
+
+    @GetMapping("exams/{id}")
+    @Secured({"ROLE_ADMIN"})
+    public ResponseEntity<?> getAllUserExamByExamId(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(userExamService.getAllByExamId(id),HttpStatus.OK);
     }
 }
