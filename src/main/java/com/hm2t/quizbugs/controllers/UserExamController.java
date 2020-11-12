@@ -22,7 +22,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/userExams")
 public class UserExamController {
-   private double currentMark =10;
+   private final double MARK =10;
 
 
    private Set<UserAnswer> userAnswers;
@@ -58,29 +58,28 @@ public class UserExamController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
         Set<UserAnswer> userAnswers = userExam.getUserAnswers();
-        int size = userAnswers.size();
-
-        for (UserAnswer c : userAnswers) {
-            Answer answer = answerService.findById(c.getAnswer().getId()).get();
-            Long qs_id = answer.getQuestion().getId();
-            Question qs = questionsService.findById(qs_id).get();
-            boolean b = qs.getType() == 1 && !answer.isStatus();
-            if (b) {
-                currentMark = currentMark - 0.25;
+        double lengthQuestions = userExam.getExam().getQuestionSet().size();
+        double OneTrueQuestion = 1/lengthQuestions;
+        double userPoint = 0;
+        for (UserAnswer uA : userAnswers) {
+            Answer answer = answerService.findById(uA.getAnswer().getId()).get();
+            if(answer.isStatus()){
+                Question question = answer.getQuestion();
+                boolean onlyTrue = question.getType() == 2 || question.getType() == 0;
+                if(onlyTrue) {
+                    userPoint+= OneTrueQuestion;
+                } else {
+                    int truePoint = 0;
+                    for(Answer a: answer.getQuestion().getAnswers()){
+                        if(a.isStatus())
+                            truePoint++;
+                    }
+                    userPoint+=(1/truePoint)/OneTrueQuestion;
+                }
             }
-            if (!answer.isStatus() && qs.getType() != 1) {
-                currentMark = currentMark - currentMark/size ;
-            }
-            System.out.println(currentMark);
         }
-           if (currentMark < 0){ currentMark = 0;}
-
-        long l = (Math.round(currentMark * 100)) ;
-        double d = ((double) l)/100;
-        userExam.setMark(Double.parseDouble(String.valueOf(d)));
-        userExam.setUser(currentUser);
-        UserExam useResult = userExamService.save(userExam);
-        return new ResponseEntity<>(useResult, HttpStatus.OK);
+        userExam.setMark(userPoint);
+        return new ResponseEntity<>(userExam,HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
