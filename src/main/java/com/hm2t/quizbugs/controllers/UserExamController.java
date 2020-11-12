@@ -10,6 +10,7 @@ import com.hm2t.quizbugs.service.users.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,8 @@ public class UserExamController {
     @Autowired
     AnswerServiceImpl answerService;
 
-
-
     @GetMapping
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<Iterable<UserExam>> getExamResultOfUser(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails){
@@ -42,6 +42,7 @@ public class UserExamController {
     }
 
     @PostMapping
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<UserExam> createExamForUser(@RequestBody UserExam userExam){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
@@ -63,11 +64,13 @@ public class UserExamController {
     }
 
     @GetMapping("/getAll")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> getAllDoneExam(){
         return new ResponseEntity<>(userExamService.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> getUserExamById(@PathVariable("id") Long id){
         return new ResponseEntity<>(userExamService.findById(id),HttpStatus.OK);
     }

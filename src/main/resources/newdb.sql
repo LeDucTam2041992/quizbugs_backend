@@ -1,17 +1,6 @@
 use quiz_bugs;
 
 
-INSERT INTO quiz_bugs.users (id, password, username) VALUES (1, '123123', 'huy123');
-INSERT INTO quiz_bugs.users (id, password, username) VALUES (2, '123123', 'admin');
-
-
-create table if not exists roles
-(
-    id   bigint auto_increment
-        primary key,
-    name varchar(255) null
-)
-    engine = MyISAM;
 
 INSERT INTO quiz_bugs.roles (id, name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO quiz_bugs.roles (id, name) VALUES (2, 'ROLE_USER');
