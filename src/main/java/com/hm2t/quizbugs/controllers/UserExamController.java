@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -102,5 +103,12 @@ public class UserExamController {
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> getUserExamById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userExamService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("users/{id}")
+    @Secured({"ROLE_ADMIN"})
+    public ResponseEntity<?> getAllExamsOfUserById(@PathVariable("id")Long id) {
+        Optional<AppUser> currentUser =  userService.findById(id);
+         return new ResponseEntity<>(userExamService.findAllByUser(currentUser.get()),HttpStatus.OK);
     }
 }

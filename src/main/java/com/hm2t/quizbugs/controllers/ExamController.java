@@ -42,7 +42,6 @@ public class ExamController {
         if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        examService.findById(1L).get();
         return new ResponseEntity<>(examService.save(exam), HttpStatus.OK);
     }
     @GetMapping("{id}")
