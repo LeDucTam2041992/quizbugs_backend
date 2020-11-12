@@ -1,11 +1,14 @@
 package com.hm2t.quizbugs.controllers;
 
+import com.hm2t.quizbugs.model.exam.Exam;
 import com.hm2t.quizbugs.model.exam.UserAnswer;
 import com.hm2t.quizbugs.model.exam.UserExam;
 import com.hm2t.quizbugs.model.questions.Answer;
 import com.hm2t.quizbugs.model.questions.Question;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.service.answer.AnswerServiceImpl;
+import com.hm2t.quizbugs.service.exam.ExamService;
+import com.hm2t.quizbugs.service.exam.impl.ExamServiceImpl;
 import com.hm2t.quizbugs.service.exam.impl.UserExamServiceImpl;
 import com.hm2t.quizbugs.service.questions.QuestionServiceImpl;
 import com.hm2t.quizbugs.service.users.Impl.UserServiceImpl;
@@ -17,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -36,7 +40,8 @@ public class UserExamController {
     AnswerServiceImpl answerService;
     @Autowired
     QuestionServiceImpl questionsService;
-
+    @Autowired
+    ExamServiceImpl examService;
 
 
 
@@ -57,8 +62,9 @@ public class UserExamController {
     public ResponseEntity<UserExam> createExamForUser(@RequestBody UserExam userExam){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
+        Optional<Exam> currentExam = examService.findById(userExam.getExam().getId());
         Set<UserAnswer> userAnswers = userExam.getUserAnswers();
-        double lengthQuestions = userExam.getExam().getQuestionSet().size();
+        double lengthQuestions = currentExam.get().getQuestionSet().size();
         double OneTrueQuestion = 1/lengthQuestions;
         double userPoint = 0;
         for (UserAnswer uA : userAnswers) {
