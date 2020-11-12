@@ -7,6 +7,7 @@ import com.hm2t.quizbugs.service.questions.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/questions")
 @CrossOrigin("*")
+@Secured({"ROLE_ADMIN"})
 public class QuestionController {
     @Autowired
     private QuestionService questionService;

@@ -9,6 +9,10 @@ import com.hm2t.quizbugs.service.users.Impl.UserTokenServiceImpl;
 import org.bouncycastle.openssl.PasswordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +23,7 @@ import javax.xml.bind.ValidationException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/users")
@@ -35,7 +40,7 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @PostMapping
+    @PostMapping("/register")
     public void createUser(@RequestBody AppUser appUser) throws ValidationException {
         int passwordLength = appUser.getPassword().length();
         if (passwordLength > 5 && passwordLength < 20) {
@@ -49,13 +54,35 @@ public class UserController {
         }
     }
 
+    @GetMapping
+    @Secured({"ROLE_ADMIN"})
+    public ResponseEntity<?> getAllUsers() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            AppUser currentUser = userService.findByUsername(userDetails.getUsername());
+            boolean isAdmin = false;
+            for (AppRole obj : currentUser.getRoles()) {
+                if (obj.getName().equals("ROLE_ADMIN")) {
+                    isAdmin = true;
+                    break;
+                }
+            }
+            if (isAdmin) {
+                return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Nothing", HttpStatus.BAD_REQUEST);
+    }
+
     @PutMapping("/updatePassword")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public void doUpdatePassword(@RequestBody UpdatePassword updatePassword) throws PasswordException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails){
+        if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
             boolean matches = passwordEncoder.matches(updatePassword.getOldPassword(), userDetails.getPassword());
-            if (matches){
+            if (matches) {
                 AppUser currentUser = userService.findByUsername(userDetails.getUsername());
                 currentUser.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
                 userService.save(currentUser);
@@ -66,16 +93,30 @@ public class UserController {
     }
 
     @GetMapping("{id}")
+    @Secured({"ROLE_ADMIN"})
     public AppUser getUserDetails(@PathVariable("id") Long id) {
         Optional<AppUser> appUser = this.userService.findById(id);
-        if (appUser.isPresent()){
+        if (appUser.isPresent()) {
             return appUser.get();
         } else {
             throw new IndexOutOfBoundsException();
         }
     }
 
+    @PutMapping("{id}")
+    @Secured({"ROLE_ADMIN"})
+    public ResponseEntity<?> setAdmin(@PathVariable("id") Long id) {
+                Optional<AppUser> updateUser = this.userService.findById(id);
+                AppRole role = new AppRole();
+                role.setId(1L);
+                role.setName("ROLE_ADMIN");
+                updateUser.get().getRoles().add(role);
+                userService.save(updateUser.get());
+        return new ResponseEntity<>("Hello, Word!", HttpStatus.OK);
+    }
+
     @GetMapping("/logout")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public void doLogout(HttpServletRequest request) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {

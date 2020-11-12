@@ -8,6 +8,7 @@ import com.hm2t.quizbugs.service.users.Impl.UserTokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,6 +22,10 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -64,10 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
                 .addFilterAfter(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/users").permitAll()
-                .antMatchers("/users/**").access("hasRole('USER') or hasRole('ADMIN')")
-                .anyRequest().permitAll();
-//                .anyRequest().authenticated();
+                .antMatchers("/login", "/users/register").permitAll()
+                .anyRequest().authenticated();
 
 
         http.cors().configurationSource(request -> {
