@@ -1,55 +1,16 @@
-create database if not exists quiz_bugs;
 use quiz_bugs;
 
 
-create table if not exists users
-(
-    id       bigint auto_increment
-        primary key,
-    password varchar(255) not null,
-    username varchar(20)  not null,
-    constraint UK_r43af9ap4edm43mmtq01oddj6
-        unique (username)
-)
-    engine = MyISAM;
-
-INSERT INTO quiz_bugs.users (id, password, username) VALUES (1, '123123', 'huy123');
-INSERT INTO quiz_bugs.users (id, password, username) VALUES (2, '123123', 'admin');
-
-
-create table if not exists roles
-(
-    id   bigint auto_increment
-        primary key,
-    name varchar(255) null
-)
-    engine = MyISAM;
 
 INSERT INTO quiz_bugs.roles (id, name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO quiz_bugs.roles (id, name) VALUES (2, 'ROLE_USER');
 
 
-create table if not exists users_roles
-(
-    app_user_id bigint not null,
-    roles_id    bigint not null,
-    primary key (app_user_id, roles_id)
-)
-    engine = MyISAM;
-
-create index FKa62j07k5mhgifpp955h37ponj
-    on users_roles (roles_id);
 
 INSERT INTO quiz_bugs.users_roles (app_user_id, roles_id) VALUES (1, 2);
 INSERT INTO quiz_bugs.users_roles (app_user_id, roles_id) VALUES (2, 2);
 
-create table if not exists categories
-(
-    id       bigint auto_increment
-        primary key,
-    category varchar(50) not null
-)
-    engine = MyISAM;
+
 
 INSERT INTO quiz_bugs.categories (id, category) VALUES (1, 'PHP');
 INSERT INTO quiz_bugs.categories (id, category) VALUES (2, 'JAVA');
@@ -57,15 +18,6 @@ INSERT INTO quiz_bugs.categories (id, category) VALUES (3, 'SQL');
 
 
 
-create table if not exists questions
-(
-    id       bigint auto_increment
-        primary key,
-    enabled  tinyint(1) default 1 null,
-    question text                 not null,
-    type     int                  null
-)
-    engine = MyISAM;
 
 INSERT INTO quiz_bugs.questions (id, enabled, question, type) VALUES (1, 1, 'Java là ngôn ngữ lập trình?', 0);
 INSERT INTO quiz_bugs.questions (id, enabled, question, type) VALUES (2, 1, 'Java do Sun Microsystems sở hữu?', 2);
@@ -86,6 +38,7 @@ switch(a) {
     default:
        System.out.print("C");
 }', 0);
+
 INSERT INTO quiz_bugs.questions (id, enabled, question, type) VALUES (9, 1, 'Cho biết kết quả xuất ra màn hình sau khi thực hiện đoạn mã lệnh sau:
 
 int a = 5 > 7 ? 2 : 1;
@@ -110,18 +63,6 @@ if(x < 16) {
   System.out.println("C");
 }', 0);
 
-create table if not exists  answers
-(
-    id          bigint auto_increment
-    primary key,
-    answer      text   not null,
-    status      bit    not null,
-    question_id bigint null
-)
-engine = MyISAM;
-
-create index FK3erw1a3t0r78st8ty27x6v3g1
-    on answers (question_id);
 
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (1, 'Hướng đối tượng', true, 1);
 INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (2, 'Hướng cấu trúc', false, 1);
@@ -162,17 +103,6 @@ INSERT INTO quiz_bugs.answers (id, answer, status, question_id) VALUES (44, 'B',
 
 
 
-create table if not exists questions_categories
-(
-    question_id   bigint not null,
-    categories_id bigint not null,
-    primary key (question_id, categories_id)
-)
-engine = MyISAM;
-
-create index FKnc15vp2xx6jvpytgiyp2l7j44
-    on questions_categories (categories_id);
-
 INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (1, 2);
 INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (2, 2);
 INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (3, 2);
@@ -186,30 +116,14 @@ INSERT INTO quiz_bugs.questions_categories (question_id, categories_id) VALUES (
 
 
 
-create table if not exists exam
-(
-    id      bigint auto_increment
-        primary key,
-    enabled tinyint(1) default 1 null,
-    name    text                 not null
-)
-    engine = MyISAM;
+
 
 INSERT INTO quiz_bugs.exam (id, enabled, name) VALUES (1, 1, 'Java_Core_1');
 INSERT INTO quiz_bugs.exam (id, enabled, name) VALUES (2, 1, 'SQL_Data');
 
 
 
-create table if not exists exam_question_set
-(
-    exam_id         bigint not null,
-    question_set_id bigint not null,
-    primary key (exam_id, question_set_id)
-)
-    engine = MyISAM;
 
-create index FKrfns00ngbxn1qkh9vkr7pe8ly
-    on exam_question_set (question_set_id);
 
 INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 1);
 INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 2);
@@ -223,41 +137,11 @@ INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 9)
 INSERT INTO quiz_bugs.exam_question_set (exam_id, question_set_id) VALUES (1, 10);
 
 
-create table if not exists user_exam
-(
-    id      bigint auto_increment
-        primary key,
-    date    datetime null,
-    mark    double   null,
-    test_id bigint   null,
-    user_id bigint   null
-)
-    engine = MyISAM;
-
-create index FKa9qjdk6ko6a13anaa4wkvblrq
-    on user_exam (user_id);
-
-create index FKfsagvb6xkhgqqowwyn5gstfnb
-    on user_exam (test_id);
 
 INSERT INTO quiz_bugs.user_exam (id, date, mark, test_id, user_id) VALUES (1, '2020-11-10 17:00:10', null, 1, 1);
 
 
-create table if not exists user_answer
-(
-    id           bigint auto_increment
-        primary key,
-    input_answer varchar(255) null,
-    answer_id    bigint       null,
-    user_test_id bigint       null
-)
-    engine = MyISAM;
 
-create index FK7pf3nw73u6r5lxsqilqi238dx
-    on user_answer (answer_id);
-
-create index FK8dom2k11788cr7y8rg9q268is
-    on user_answer (user_test_id);
 
 INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (1, null, 2, 1);
 INSERT INTO quiz_bugs.user_answer (id, input_answer, answer_id, user_test_id) VALUES (2, null, 5, 1);
