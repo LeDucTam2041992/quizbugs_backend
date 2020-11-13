@@ -113,7 +113,7 @@ public class UserExamController {
     }
 
     @GetMapping("{id}")
-    @Secured({"ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN","ROLE_USER"})
     public ResponseEntity<?> getUserExamById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userExamService.findById(id), HttpStatus.OK);
     }
