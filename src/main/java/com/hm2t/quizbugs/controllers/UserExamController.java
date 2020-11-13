@@ -21,8 +21,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/userExams")
@@ -63,31 +62,43 @@ public class UserExamController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser currentUser = userService.findByUsername(((UserDetails) principal).getUsername());
         Optional<Exam> currentExam = examService.findById(userExam.getExam().getId());
-        Set<UserAnswer> userAnswers = userExam.getUserAnswers();
-        double lengthQuestions = currentExam.get().getQuestionSet().size();
-        double OneTrueQuestion = 1 / lengthQuestions;
+        Set<UserAnswer> userAnswerSet = userExam.getUserAnswers();
+        Set<Question> questionSet = currentExam.get().getQuestionSet();
+        HashMap<Long, Double> questionIdPoint = new HashMap<>();
+        for (Question question : questionSet) {
+            questionIdPoint.put(question.getId(), 0.0);
+        }
+        double lengthQuestions = questionSet.size();
+        double OneTrueQuestion = 10 / lengthQuestions;
         double userPoint = 0;
-        for (UserAnswer uA : userAnswers) {
-            Optional<Answer> answer = answerService.findById(uA.getAnswer().getId());
+
+        for (UserAnswer userAnswer : userAnswerSet) {
+            Optional<Answer> answer = answerService.findById(userAnswer.getAnswer().getId());
             Question question = answer.get().getQuestion();
+            Long questionId = question.getId();
             boolean onlyTrue = question.getType() == 2 || question.getType() == 0;
             if (onlyTrue) {
                 if (answer.get().isStatus())
-                    userPoint += OneTrueQuestion;
+                    questionIdPoint.put(questionId, questionIdPoint.get(questionId) + OneTrueQuestion);
             } else {
-                double truePoint = 0;
-                double wrongAnswer = 0;
+                int truePoint = 0;
+                double point = 0;
                 Question currentQuestion = answer.get().getQuestion();
                 for (Answer a : currentQuestion.getAnswers()) {
                     if (a.isStatus())
                         truePoint++;
                 }
+                point = (double) (1 / truePoint) / OneTrueQuestion;
                 if (answer.get().isStatus())
-                    userPoint += (1 / truePoint) / OneTrueQuestion;
+                    questionIdPoint.put(questionId, questionIdPoint.get(questionId) + point);
                 else
-                    userPoint -= (1 / truePoint) / OneTrueQuestion;
+                    questionIdPoint.put(questionId, questionIdPoint.get(questionId) - point);
             }
         }
+        for(Double point: questionIdPoint.values()){
+            userPoint+=point;
+        }
+        userPoint = (double) Math.round(userPoint * 10) / 10;
         userExam.setMark(userPoint);
         userExam.setUser(currentUser);
         return new ResponseEntity<>(userExamService.save(userExam), HttpStatus.OK);
@@ -115,6 +126,6 @@ public class UserExamController {
     @GetMapping("exams/{id}")
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> getAllUserExamByExamId(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(userExamService.getAllByExamId(id),HttpStatus.OK);
+        return new ResponseEntity<>(userExamService.getAllByExamId(id), HttpStatus.OK);
     }
 }
