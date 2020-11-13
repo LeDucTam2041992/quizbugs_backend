@@ -81,14 +81,14 @@ public class UserExamController {
                 if (answer.get().isStatus())
                     questionIdPoint.put(questionId, questionIdPoint.get(questionId) + OneTrueQuestion);
             } else {
-                int truePoint = 0;
+                double truePoint = 0;
                 double point = 0;
                 Question currentQuestion = answer.get().getQuestion();
                 for (Answer a : currentQuestion.getAnswers()) {
                     if (a.isStatus())
-                        truePoint++;
+                        ++truePoint;
                 }
-                point = (double) (1 / truePoint) / OneTrueQuestion;
+                point =  OneTrueQuestion / truePoint;
                 if (answer.get().isStatus())
                     questionIdPoint.put(questionId, questionIdPoint.get(questionId) + point);
                 else
