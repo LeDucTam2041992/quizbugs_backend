@@ -96,6 +96,8 @@ public class UserExamController {
             }
         }
         for(Double point: questionIdPoint.values()){
+            if(point<0)
+                point =0.0;
             userPoint+=point;
         }
         userPoint = (double) Math.round(userPoint * 10) / 10;
