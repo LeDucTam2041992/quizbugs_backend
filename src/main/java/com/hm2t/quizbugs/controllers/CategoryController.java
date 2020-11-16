@@ -58,7 +58,10 @@ public class CategoryController {
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteCategory(@PathVariable("id") Long id){
         Optional<Category> currentCategory = categoryService.findById(id);
-        currentCategory.get().setEnabled(false);
+        if(currentCategory.isPresent()) {
+            currentCategory.get().setEnabled(false);
+            categoryService.save(currentCategory.get());
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

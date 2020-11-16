@@ -71,6 +71,7 @@ public class ExamController {
         Optional<Exam> currentTest = examService.findById(id);
         if(currentTest.isPresent())
             currentTest.get().setEnabled(false);
+        examService.save(currentTest.get());
         return new ResponseEntity<>(currentTest,HttpStatus.OK);
     }
 }

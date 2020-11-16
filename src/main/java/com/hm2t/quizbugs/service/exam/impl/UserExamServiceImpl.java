@@ -1,11 +1,13 @@
 package com.hm2t.quizbugs.service.exam.impl;
 
+import com.hm2t.quizbugs.model.exam.UserExam;
 import com.hm2t.quizbugs.model.users.AppUser;
 import com.hm2t.quizbugs.repository.UserExamRepository;
 import com.hm2t.quizbugs.service.exam.UserExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,5 +38,10 @@ public class UserExamServiceImpl implements UserExamService {
     @Override
     public Iterable<com.hm2t.quizbugs.model.exam.UserExam> findAllByUser(AppUser user) {
         return userExamRepository.findAllByUserOrderByDate(user);
+    }
+
+    @Override
+    public List<UserExam> getAllByExamId(Long id) {
+        return userExamRepository.getAllByExamId(id);
     }
 }
